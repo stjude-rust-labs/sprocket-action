@@ -1,0 +1,17 @@
+name: "Sprocket Check"
+author: "St. Jude Cloud Rust Labs"
+description: "Check WDL documents for validity using Sprocket"
+inputs:
+  lint:
+    description: "Whether to lint the WDL document"
+    required: false
+    default: "false"
+outputs:
+  status:
+    description: "The status of the check"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  entrypoint: "/app/entrypoint.sh"
+  args:
+    - ${{ inputs.lint == 'true' && '--lint' || '' }}
