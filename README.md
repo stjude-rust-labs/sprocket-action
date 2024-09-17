@@ -5,13 +5,13 @@
 This action uses [Sprocket](https://github.com/stjude-rust-labs/sprocket) to validate and optionally lint WDL documents.
 
 ## Inputs
-## lint
+### lint
 **Optional** Whether to run linting in addition to validation. Boolean, valid choices: ["true", "false"]
-## exclude-patterns
+### exclude-patterns
 **Optional** Comma separated list of patterns to exclude when searching for WDL files.
-## deny-warnings
+### deny-warnings
 **Optional** If specified, Sprocket `check` will fail if any `warnings` are produced.
-## deny-notes
+### deny-notes
 **Optional** If specified, Sprocket `check` will fail if any `notes` are produced.
 
 
