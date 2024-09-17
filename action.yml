@@ -10,6 +10,14 @@ inputs:
     description: 'Comma separated list of patterns to exclude from Sprocket check.'
     required: false
     default: ''
+  deny-warnings:
+    description: 'Fail the check if there are any warnings.'
+    required: false
+    default: 'false'
+  deny-notes:
+    description: 'Fail the check if there are any notes.'
+    required: false
+    default: 'false'
 outputs:
   status:
     description: "The status of the check"
@@ -19,4 +27,6 @@ runs:
   entrypoint: "/app/entrypoint.sh"
   args:
     - ${{ inputs.lint == 'true' && '--lint' || '' }}
+    - ${{ inputs.deny-warnings == 'true' && '--deny-warnings' || '' }}
+    - ${{ inputs.deny-notes == 'true' && '--deny-notes' || '' }}
     - ${{ inputs.exclude-paths }}

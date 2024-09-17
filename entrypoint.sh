@@ -1,7 +1,20 @@
 #!/bin/bash
 
-lint=$1
-exclusions=$2
+lint=""
+warnings=""
+notes=""
+
+while [ "$#" -gt 0 ]; do
+    arg=$1
+    case $1 in
+        -l|--lint) lint="--lint"; shift;;
+        -w|--deny-warnings) warnings="--deny-warnings"; shift;;
+        -n|--deny-notes) notes="--deny-notes"; shift;;
+        *) break;;
+    esac
+done
+
+exclusions=$1
 
 if [ -n "$exclusions" ]; then
     echo "Exclusions provided. Writing to .sprocket.yml."
@@ -26,7 +39,7 @@ do
         fi
     fi
     echo "  [***] $file [***]"
-    sprocket check $lint $file || EXITCODE=$(($? || EXITCODE))
+    sprocket check $lint $warnings $notes $file || EXITCODE=$(($? || EXITCODE))
 done
 
 echo "status=$EXITCODE" >> $GITHUB_OUTPUT
