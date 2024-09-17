@@ -1,26 +1,29 @@
 #!/bin/bash
 
 lint=$1
+exclusions=$2
 
-errors=0
-ret=0
+if [ ! -z "$exclusions" ]; then
+    echo "Exclusions provided. Writing to .sprocket.yml."
+    echo -n "" > .sprocket.yml
+    for exclusion in $(echo $exclusions | sed 's/,/ /')
+    do
+        echo "$exclusion" >> .sprocket.yml
+    done
+fi
+
+EXITCODE=0
 
 echo "Checking WDL files using \`sprocket lint\`."
 for file in $(find $GITHUB_WORKSPACE -name "*.wdl")
 do
-    echo "  [***] $file [***]"
-    ret=$(sprocket check $lint $file)
-    if [ $ret -ne 0 ]
-    then
-        echo "$file has errors" >> $GITHUB_OUTPUT
-        errors=1
+    if [ $(echo $file | grep -cvf .sprocket.yml) -eq 0 ]; then
+        echo "  [***] Excluding $file [***]"
+        continue
     fi
+    echo "  [***] $file [***]"
+    sprocket check $lint $file || EXITCODE=$(($? || EXITCODE))
 done
 
-if [ $errors -eq 0 ]
-then
-    echo "No errors found" >> $GITHUB_OUTPUT
-    exit 0
-else
-    exit 1
-fi
+echo "status=$EXITCODE" >> $GITHUB_OUTPUT
+exit $EXITCODE

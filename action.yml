@@ -6,6 +6,10 @@ inputs:
     description: "Whether to lint the WDL document"
     required: false
     default: "false"
+  exclude-paths:
+    description: 'Comma separated list of patterns to exclude from Sprocket check.'
+    required: false
+    default: ''
 outputs:
   status:
     description: "The status of the check"
@@ -15,3 +19,4 @@ runs:
   entrypoint: "/app/entrypoint.sh"
   args:
     - ${{ inputs.lint == 'true' && '--lint' || '' }}
+    - ${{ inputs.exclude-paths }}
