@@ -1,3 +1,5 @@
+<img style="margin: 0px" alt="Repository Header Image" src="./assets/header-action.png" />
+<hr/>
 # Sprocket GitHub Action
 This action uses [Sprocket](https://github.com/stjude-rust-labs/sprocket) to validate and optionally lint WDL documents.
 
