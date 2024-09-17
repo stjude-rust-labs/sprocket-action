@@ -5,5 +5,5 @@ COPY . .
 
 RUN cargo install sprocket
 
-ENTRYPOINT ["sprocket"]"]
+ENTRYPOINT ["sprocket"]
 CMD ["--help"]

@@ -5,8 +5,10 @@ lint=$1
 errors=0
 ret=0
 
+echo "Checking WDL files using \`sprocket lint\`."
 for file in $(find $GITHUB_WORKSPACE -name "*.wdl")
 do
+    echo "  [***] $file [***]"
     ret=$(sprocket check $lint $file)
     if [ $ret -ne 0 ]
     then
