@@ -10,6 +10,7 @@ while [ "$#" -gt 0 ]; do
         -l|--lint) lint="--lint"; shift;;
         -w|--deny-warnings) warnings="--deny-warnings"; shift;;
         -n|--deny-notes) notes="--deny-notes"; shift;;
+        ''|"") shift;;
         *) break;;
     esac
 done

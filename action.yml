@@ -5,7 +5,7 @@ inputs:
   lint:
     description: "Whether to lint the WDL document"
     required: false
-    default: "false"
+    default: 'false'
   exclude-paths:
     description: 'Comma separated list of patterns to exclude from Sprocket check.'
     required: false
