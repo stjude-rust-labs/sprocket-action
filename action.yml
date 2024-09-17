@@ -6,7 +6,7 @@ inputs:
     description: "Whether to lint the WDL document"
     required: false
     default: 'false'
-  exclude-paths:
+  exclude-patterns:
     description: 'Comma separated list of patterns to exclude from Sprocket check.'
     required: false
     default: ''
@@ -29,4 +29,4 @@ runs:
     - ${{ inputs.lint == 'true' && '--lint' || '' }}
     - ${{ inputs.deny-warnings == 'true' && '--deny-warnings' || '' }}
     - ${{ inputs.deny-notes == 'true' && '--deny-notes' || '' }}
-    - ${{ inputs.exclude-paths }}
+    - ${{ inputs.exclude-patterns }}

@@ -4,7 +4,7 @@ This action uses [Sprocket](https://github.com/stjude-rust-labs/sprocket) to val
 ## Inputs
 ## lint
 **Optional** Whether to run linting in addition to validation. Boolean, valid choices: ["true", "false"]
-## exclude-paths
+## exclude-patterns
 **Optional** Comma separated list of patterns to exclude when searching for WDL files.
 ## deny-warnings
 **Optional** If specified, Sprocket `check` will fail if any `warnings` are produced.
@@ -16,4 +16,4 @@ This action uses [Sprocket](https://github.com/stjude-rust-labs/sprocket) to val
 uses: actions/sprocket-action@v1
 with:
     lint: true
-    exclude-paths: template,test
+    exclude-patterns: template,test
