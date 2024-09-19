@@ -10,28 +10,17 @@ fi
 
 warnings=""
 
-if [ ${INPUT_DENY-WARNINGS} = "true" ]; then
+if [ ${INPUT_WARNINGS} = "true" ]; then
     warnings="--deny-warnings"
 fi
 
 notes=""
 
-if [ ${INPUT_DENY-NOTES} = "true" ]; then
+if [ ${INPUT_NOTES} = "true" ]; then
     notes="--deny-notes"
 fi
 
-# while [ "$#" -gt 0 ]; do
-#     arg=$1
-#     case $1 in
-#         -l|--lint) lint="--lint"; shift;;
-#         -w|--deny-warnings) warnings="--deny-warnings"; shift;;
-#         -n|--deny-notes) notes="--deny-notes"; shift;;
-#         ''|"") shift;;
-#         *) break;;
-#     esac
-# done
-
-exclusions=${INPUT_EXCLUDE-PATTERNS}
+exclusions=${INPUT_PATTERNS}
 echo "exclusions: $exclusions"
 
 if [ -n "$exclusions" ]; then
