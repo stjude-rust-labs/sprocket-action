@@ -1,21 +1,24 @@
 #!/bin/bash
 
 lint=""
+
+if [ $INPUT_LINT = "true" ]; then
+    lint="--lint"
+fi
+
 warnings=""
+
+if [ ${INPUT_WARNINGS} = "true" ]; then
+    warnings="--deny-warnings"
+fi
+
 notes=""
 
-while [ "$#" -gt 0 ]; do
-    arg=$1
-    case $1 in
-        -l|--lint) lint="--lint"; shift;;
-        -w|--deny-warnings) warnings="--deny-warnings"; shift;;
-        -n|--deny-notes) notes="--deny-notes"; shift;;
-        ''|"") shift;;
-        *) break;;
-    esac
-done
+if [ ${INPUT_NOTES} = "true" ]; then
+    notes="--deny-notes"
+fi
 
-exclusions=$1
+exclusions=${INPUT_PATTERNS}
 
 if [ -n "$exclusions" ]; then
     echo "Exclusions provided. Writing to .sprocket.yml."

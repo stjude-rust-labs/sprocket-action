@@ -1,0 +1,28 @@
+name:  Test Exclusions
+
+on:
+  pull_request:
+  push:
+
+jobs:
+    test-exclusions:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Test Local Action (debug log)
+              uses: ./
+              env:
+                  LOG_LEVEL: DEBUG
+                  CREATE_LOG_FILE: true
+                  GITHUB_WORKSPACE: test/exclusion-test
+              with:
+                  exclude-patterns: 'template'
+            - name: Test Local Action (debug log)
+              uses: ./
+              env:
+                  LOG_LEVEL: DEBUG
+                  CREATE_LOG_FILE: true
+                  GITHUB_WORKSPACE: test/exclusion-test
+              with:
+                  exclude-patterns: 'template'
+                  deny-warnings: 'true'
