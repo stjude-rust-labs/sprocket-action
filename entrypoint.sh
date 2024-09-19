@@ -1,8 +1,22 @@
 #!/bin/bash
 
 lint=""
+
+if [ $INPUT_LINT = "true" ]; then
+    lint="--lint"
+fi
+
 warnings=""
+
+if [ ${INPUT_DENY-WARNINGS} = "true" ]; then
+    warnings="--deny-warnings"
+fi
+
 notes=""
+
+if [ ${INPUT_DENY-NOTES} = "true" ]; then
+    notes="--deny-notes"
+fi
 
 while [ "$#" -gt 0 ]; do
     arg=$1
@@ -15,7 +29,7 @@ while [ "$#" -gt 0 ]; do
     esac
 done
 
-exclusions=$1
+exclusions=${INPUT_EXCLUDE-PATHS}
 
 if [ -n "$exclusions" ]; then
     echo "Exclusions provided. Writing to .sprocket.yml."
