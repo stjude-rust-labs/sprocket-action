@@ -30,6 +30,7 @@ fi
 # done
 
 exclusions=${INPUT_EXCLUDE-PATTERNS}
+echo "exclusions: $exclusions"
 
 if [ -n "$exclusions" ]; then
     echo "Exclusions provided. Writing to .sprocket.yml."
