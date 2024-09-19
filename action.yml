@@ -1,6 +1,9 @@
 name: "Sprocket Check"
 author: "St. Jude Cloud Rust Labs"
 description: "Check WDL documents for validity using Sprocket"
+branding:
+  icon: 'check-circle'
+  color: 'blue'
 inputs:
   lint:
     description: "Whether to lint the WDL document"
