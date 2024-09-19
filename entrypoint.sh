@@ -39,6 +39,7 @@ if [ -n "$exclusions" ]; then
     do
         echo "$exclusion" >> .sprocket.yml
     done
+    cat .sprocket.yml
 fi
 
 EXITCODE=0
