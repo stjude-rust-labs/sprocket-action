@@ -25,8 +25,7 @@ runs:
   using: "docker"
   image: "Dockerfile"
   entrypoint: "/app/entrypoint.sh"
-  # args:
-  #   - ${{ inputs.lint == 'true' && '--lint' || '' }}
-  #   - ${{ inputs.deny-warnings == 'true' && '--deny-warnings' || '' }}
-  #   - ${{ inputs.deny-notes == 'true' && '--deny-notes' || '' }}
-  #   - ${{ inputs.exclude-patterns }}
+  env:
+    INPUT_PATTERNS: ${{ inputs.exclude-patterns }}
+    INPUT_WARNINGS: ${{ inputs.deny-warnings }}
+    INPUT_NOTES: ${{ inputs.deny-notes }}
