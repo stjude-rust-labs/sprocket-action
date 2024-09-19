@@ -1,5 +1,7 @@
 #!/bin/bash
 
+env
+
 lint=""
 
 if [ $INPUT_LINT = "true" ]; then
