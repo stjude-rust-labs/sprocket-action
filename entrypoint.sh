@@ -1,7 +1,5 @@
 #!/bin/bash
 
-env
-
 lint=""
 
 if [ $INPUT_LINT = "true" ]; then
@@ -21,7 +19,6 @@ if [ ${INPUT_NOTES} = "true" ]; then
 fi
 
 exclusions=${INPUT_PATTERNS}
-echo "exclusions: $exclusions"
 
 if [ -n "$exclusions" ]; then
     echo "Exclusions provided. Writing to .sprocket.yml."
@@ -30,7 +27,6 @@ if [ -n "$exclusions" ]; then
     do
         echo "$exclusion" >> .sprocket.yml
     done
-    cat .sprocket.yml
 fi
 
 EXITCODE=0
