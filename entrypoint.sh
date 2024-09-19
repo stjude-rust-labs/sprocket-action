@@ -18,18 +18,18 @@ if [ ${INPUT_DENY-NOTES} = "true" ]; then
     notes="--deny-notes"
 fi
 
-while [ "$#" -gt 0 ]; do
-    arg=$1
-    case $1 in
-        -l|--lint) lint="--lint"; shift;;
-        -w|--deny-warnings) warnings="--deny-warnings"; shift;;
-        -n|--deny-notes) notes="--deny-notes"; shift;;
-        ''|"") shift;;
-        *) break;;
-    esac
-done
+# while [ "$#" -gt 0 ]; do
+#     arg=$1
+#     case $1 in
+#         -l|--lint) lint="--lint"; shift;;
+#         -w|--deny-warnings) warnings="--deny-warnings"; shift;;
+#         -n|--deny-notes) notes="--deny-notes"; shift;;
+#         ''|"") shift;;
+#         *) break;;
+#     esac
+# done
 
-exclusions=${INPUT_EXCLUDE-PATHS}
+exclusions=${INPUT_EXCLUDE-PATTERNS}
 
 if [ -n "$exclusions" ]; then
     echo "Exclusions provided. Writing to .sprocket.yml."
