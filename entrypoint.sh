@@ -1,9 +1,24 @@
 #!/bin/bash
 
+echo "===configuration==="
+echo "lint: $INPUT_LINT"
+echo "exceptions: $INPUT_EXCEPT"
+echo "warnings: $INPUT_WARNINGS"
+echo "notes: $INPUT_NOTES"
+echo "patterns: $INPUT_PATTERNS"
+
 lint=""
+exceptions=""
 
 if [ $INPUT_LINT = "true" ]; then
     lint="--lint"
+    if [ -n "$INPUT_EXCEPT" ]; then
+        echo "Excepted rule(s) provided."
+        for exception in $(echo $INPUT_EXCEPT | sed 's/,/ /')
+        do
+            exceptions="$exceptions --except $exception"
+        done
+    fi
 fi
 
 warnings=""
@@ -43,7 +58,8 @@ do
         fi
     fi
     echo "  [***] $file [***]"
-    sprocket check $lint $warnings $notes $file || EXITCODE=$(($? || EXITCODE))
+    echo "sprocket check $lint $warnings $notes $exceptions $file"
+    sprocket check $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
 done
 
 echo "status=$EXITCODE" >> $GITHUB_OUTPUT
