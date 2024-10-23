@@ -13,6 +13,8 @@ This action uses [Sprocket](https://github.com/stjude-rust-labs/sprocket) to val
 **Optional** If specified, Sprocket `check` will fail if any `warnings` are produced.
 ### `deny-notes`
 **Optional** If specified, Sprocket `check` will fail if any `notes` are produced.
+### `except`
+**Optional** If specified and `lint`==`true`, then the listed rules will be excepted from all `sprocket lint` checks. Multiple rules can be specified as a comma-separated list, e.g. `CallInputSpacing,CommandSectionMixedIndentation`. Valid options can be found at: https://docs.rs/wdl/latest/wdl/lint/index.html#lint-rules.
 
 
 ## Example usage

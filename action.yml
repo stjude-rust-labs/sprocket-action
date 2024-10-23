@@ -21,6 +21,10 @@ inputs:
     description: 'Fail the check if there are any notes.'
     required: false
     default: 'false'
+  except:
+    description: 'Comma separated list of rules to exclude from Sprocket check.'
+    required: false
+    default: ''
 outputs:
   status:
     description: "The status of the check"
