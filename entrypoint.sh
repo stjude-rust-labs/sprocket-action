@@ -1,9 +1,17 @@
 #!/bin/bash
 
 lint=""
+exceptions=""
 
 if [ $INPUT_LINT = "true" ]; then
     lint="--lint"
+    if [ -n "$INPUT_EXCEPTIONS" ]; then
+        echo "Excepted rule(s) provided."
+        for exception in $(echo $INPUT_EXCEPTIONS | sed 's/,/ /')
+        do
+            exceptions="$exceptions --except $exception"
+        done
+    fi
 fi
 
 warnings=""
@@ -43,7 +51,7 @@ do
         fi
     fi
     echo "  [***] $file [***]"
-    sprocket check $lint $warnings $notes $file || EXITCODE=$(($? || EXITCODE))
+    sprocket check $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
 done
 
 echo "status=$EXITCODE" >> $GITHUB_OUTPUT
