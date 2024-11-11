@@ -19,7 +19,7 @@ This action uses [Sprocket](https://github.com/stjude-rust-labs/sprocket) to val
 
 ## Example usage
 ```
-uses: actions/sprocket-action@v1
+uses: stjude-rust-labs/sprocket-action@main
 with:
     lint: true
     exclude-patterns: template,test
