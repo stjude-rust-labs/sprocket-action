@@ -41,7 +41,8 @@ if [ -n "$exclusions" ]; then
     for exclusion in $(echo $exclusions | sed 's/,/ /g')
     do
         echo "$exclusion" >> .sprocket.yml
-
+    done
+    
     echo "  [***] Exclusions [***]"
     cat .sprocket.yml
 fi
