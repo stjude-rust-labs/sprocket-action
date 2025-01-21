@@ -3,38 +3,77 @@
 
 # Sprocket GitHub Action
 
-This action uses [Sprocket](https://github.com/stjude-rust-labs/sprocket) to validate and optionally lint WDL documents.
+This action provides the functionality of the [Sprocket](https://github.com/stjude-rust-labs/sprocket) tool.
 
-## Inputs
+## `check` | `lint`
 
-### `lint`
+The `check` and `lint` subcommands perform static analysis on WDL documents. The `lint` command (or the `lint: true` option to `check`) additionally enables linting rules
+
+### Inputs
+
+#### `lint`
 
 **Optional** Whether to run linting in addition to validation. Boolean, valid choices: ["true", "false"]
 
-### `exclude-patterns`
+#### `exclude-patterns`
 
 **Optional** Comma separated list of patterns to exclude when searching for WDL files.
 
-### `deny-warnings`
+#### `deny-warnings`
 
 **Optional** If specified, Sprocket `check` will fail if any `warnings` are produced.
 
-### `deny-notes`
+#### `deny-notes`
 
 **Optional** If specified, Sprocket `check` will fail if any `notes` are produced.
 
-### `except`
+#### `except`
 
 **Optional** If specified, then the listed rules will be excepted from all `sprocket check` reports. Multiple rules can be specified as a comma-separated list, e.g. `CallInputSpacing,CommandSectionMixedIndentation`. Valid options can be found at: [analysis rules](https://github.com/stjude-rust-labs/wdl/blob/main/wdl-analysis/RULES.md) and [lint rules](https://github.com/stjude-rust-labs/wdl/blob/main/wdl-lint/RULES.md).
 
-## Example usage
+### Example usage
 
-```
+```yaml
 uses: stjude-rust-labs/sprocket-action@main
 with:
+    action: check
     lint: true
     exclude-patterns: template,test
     except: TrailingComma,ContainerValue
+```
+
+The action `lint` can be specified and is equivalent to specifying `action: check` and `lint: true`.
+
+```yaml
+uses: stjude-rust-labs/sprocket-action@main
+with:
+    action: lint
+    exclude-patterns: template,test
+    except: TrailingComma,ContainerValue
+```
+
+## `validate-inputs`
+
+Validates an input JSON against a task or workflow input schema.
+
+### Inputs
+
+#### wdl_file
+
+A WDL document containing a task or workflow for which to check inputs.
+
+#### inputs_file
+
+A JSON format inputs file for the task or workflow
+
+### Example usage
+
+```yaml
+uses: stjude-rust-labs/sprocket-action@main
+with:
+    action: validate-inputs
+    wdl_file: "tools/bwa.wdl"
+    inputs_file: "inputs/bwa.json"
 ```
 
 ## License and Legal

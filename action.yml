@@ -5,6 +5,12 @@ branding:
   icon: 'check-circle'
   color: 'blue'
 inputs:
+  # General options
+  action:
+    description: "Sprocket subcommand to run."
+    required: true
+    default: 'check'
+  # Options for `check` and `lint` subcommands
   lint:
     description: "Whether to lint the WDL document"
     required: false
@@ -25,6 +31,13 @@ inputs:
     description: 'Comma separated list of rules to exclude from Sprocket check.'
     required: false
     default: ''
+  # Options for `validate-inputs` subcommand
+  wdl_file:
+    description: "Path to the WDL document for which to validate inputs."
+    required: false
+  inputs_file:
+    description: "Path to the JSON file containing inputs to validate."
+    required: false
 outputs:
   status:
     description: "The status of the check"
