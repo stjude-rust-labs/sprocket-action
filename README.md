@@ -25,7 +25,7 @@ This action uses [Sprocket](https://github.com/stjude-rust-labs/sprocket) to val
 
 ### `except`
 
-**Optional** If specified and `lint`==`true`, then the listed rules will be excepted from all `sprocket lint` checks. Multiple rules can be specified as a comma-separated list, e.g. `CallInputSpacing,CommandSectionMixedIndentation`. Valid options can be found at: https://docs.rs/wdl/latest/wdl/lint/index.html#lint-rules.
+**Optional** If specified, then the listed rules will be excepted from all `sprocket check` reports. Multiple rules can be specified as a comma-separated list, e.g. `CallInputSpacing,CommandSectionMixedIndentation`. Valid options can be found at: [analysis rules](https://github.com/stjude-rust-labs/wdl/blob/main/wdl-analysis/RULES.md) and [lint rules](https://github.com/stjude-rust-labs/wdl/blob/main/wdl-lint/RULES.md).
 
 ## Example usage
 
@@ -34,6 +34,7 @@ uses: stjude-rust-labs/sprocket-action@main
 with:
     lint: true
     exclude-patterns: template,test
+    except: TrailingComma,ContainerValue
 ```
 
 ## License and Legal
