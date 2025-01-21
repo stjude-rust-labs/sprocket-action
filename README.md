@@ -3,7 +3,7 @@
 
 # Sprocket GitHub Action
 
-This action provides the functionality of the [Sprocket](https://github.com/stjude-rust-labs/sprocket) tool.
+This action provides select functionality of the [Sprocket](https://github.com/stjude-rust-labs/sprocket) command line tool for use in CI/CD pipelines.
 
 ## `check` | `lint`
 
@@ -64,7 +64,7 @@ A WDL document containing a task or workflow for which to check inputs.
 
 #### inputs_file
 
-A JSON format inputs file for the task or workflow
+A JSON format inputs file for the task or workflow.
 
 ### Example usage
 
