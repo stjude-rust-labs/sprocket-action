@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 echo "===configuration==="
 echo "lint: $INPUT_LINT"
 echo "exceptions: $INPUT_EXCEPT"
@@ -12,13 +14,14 @@ exceptions=""
 
 if [ $INPUT_LINT = "true" ]; then
     lint="--lint"
-    if [ -n "$INPUT_EXCEPT" ]; then
-        echo "Excepted rule(s) provided."
-        for exception in $(echo $INPUT_EXCEPT | sed 's/,/ /')
-        do
-            exceptions="$exceptions --except $exception"
-        done
-    fi
+fi
+
+if [ -n "$INPUT_EXCEPT" ]; then
+    echo "Excepted rule(s) provided."
+    for exception in $(echo $INPUT_EXCEPT | sed 's/,/ /')
+    do
+        exceptions="$exceptions --except $exception"
+    done
 fi
 
 warnings=""
@@ -49,7 +52,7 @@ fi
 
 EXITCODE=0
 
-echo "Checking WDL files using \`sprocket lint\`."
+echo "Checking WDL files using \`sprocket check\`."
 for file in $(find $GITHUB_WORKSPACE -name "*.wdl")
 do
     if [ -e ".sprocket.yml" ]
@@ -61,8 +64,8 @@ do
         fi
     fi
     echo "  [***] $file [***]"
-    echo "sprocket check $lint $warnings $notes $exceptions $file"
-    sprocket check $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
+    echo "sprocket check --single-document $lint $warnings $notes $exceptions $file"
+    sprocket check --single-document $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
 done
 
 echo "status=$EXITCODE" >> $GITHUB_OUTPUT
