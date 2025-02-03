@@ -12,7 +12,7 @@ inputs:
     default: 'check'
   # Options for `check` and `lint` subcommands
   lint:
-    description: "Whether to lint the WDL document"
+    description: "Whether to lint WDL documents."
     required: false
     default: 'false'
   exclude-patterns:

@@ -80,14 +80,14 @@ elif [ $INPUT_ACTION = "validate-inputs" ]; then
     EXITCODE=0
 
     # Split the input variables on either "," or " " to get the list of files
-    IFS=', ' read -r -a input_files <<< "$INPUT_INPUTS_FILE"
-    IFS=', ' read -r -a wdl_files <<< "$INPUT_WDL_FILE"
+    IFS=',' read -r -a input_files <<< "$INPUT_INPUTS_FILE"
+    IFS=',' read -r -a wdl_files <<< "$INPUT_WDL_FILE"
 
     # Note: this depends on the user to get the pairing correct upfront.
     for index in "${!input_files[@]}"
     do
         echo "sprocket validate-inputs --inputs ${input_files[index]} ${wdl_files[index]}"
-        sprocket validate-inputs --inputs ${input_files[index]} ${wdl_files[index]} || EXITCODE=$(($? || EXITCODE))
+        sprocket validate-inputs --inputs "${input_files[index]}" "${wdl_files[index]}" || EXITCODE=$(($? || EXITCODE))
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
