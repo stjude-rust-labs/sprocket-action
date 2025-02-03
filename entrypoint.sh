@@ -79,8 +79,14 @@ elif [ $INPUT_ACTION = "validate-inputs" ]; then
 
     EXITCODE=0
 
-    echo "sprocket validate-inputs --inputs $INPUT_INPUTS_FILE $INPUT_WDL_FILE"
-    sprocket validate-inputs --inputs $INPUT_INPUTS_FILE $INPUT_WDL_FILE || EXITCODE=$(($? || EXITCODE))
+    IFS=', ' read -r -a input_files <<< "$INPUT_INPUTS_FILE"
+    IFS=', ' read -r -a wdl_files <<< "$INPUT_WDL_FILE"
+
+    for index in "${!input_files[@]}"
+    do
+        echo "sprocket validate-inputs --inputs ${input_files[index]} ${wdl_files[index]}"
+        sprocket validate-inputs --inputs ${input_files[index]} ${wdl_files[index]} || EXITCODE=$(($? || EXITCODE))
+    done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
     exit $EXITCODE
