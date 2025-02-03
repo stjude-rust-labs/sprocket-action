@@ -7,13 +7,13 @@ This action provides select functionality of the [Sprocket](https://github.com/s
 
 ## `check` | `lint`
 
-The `check` and `lint` subcommands perform static analysis on WDL documents. The `lint` command (or the `lint: true` option to `check`) additionally enables linting rules
+The `check` and `lint` subcommands perform static analysis on WDL documents. The `lint: true` option additionally enables linting rules. The `lint` subcommand is an alias for `check` with linting enabled.
 
 ### Inputs
 
 #### `lint`
 
-**Optional** Whether to run linting in addition to validation. Boolean, valid choices: ["true", "false"]
+**Optional** Whether to run linting in addition to validation. Boolean, valid choices: ["true", "false"].
 
 #### `exclude-patterns`
 
