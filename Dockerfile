@@ -1,9 +1,7 @@
-FROM rust:1.82
+FROM ghcr.io/stjude-rust-labs/sprocket:v0.10.1
 WORKDIR /app
 
 COPY . .
-
-RUN cargo install sprocket
 
 ENTRYPOINT ["sprocket"]
 CMD ["--help"]
