@@ -60,11 +60,11 @@ Validates an input JSON against a task or workflow input schema.
 
 #### wdl_file
 
-A WDL document containing a task or workflow for which to check inputs.
+A comma-separated list of WDL documents containing a task or workflow for which to check inputs.
 
 #### inputs_file
 
-A JSON format inputs file for the task or workflow.
+A matching comma-separated list of JSON format inputs file for the task(s)/workflow(s). Ordering must match `wdl_file` as no checking will be performed.
 
 ### Example usage
 
@@ -74,6 +74,15 @@ with:
     action: validate-inputs
     wdl_file: "tools/bwa.wdl"
     inputs_file: "inputs/bwa.json"
+```
+
+Multiple files can be specified as well.
+```yaml
+uses: stjude-rust-labs/sprocket-action@main
+with:
+    action: validate-inputs
+    wdl_file: "tools/bwa.wdl,tools/star.wdl"
+    inputs_file: "inputs/bwa.json,inputs/star.wdl"
 ```
 
 ## License and Legal
