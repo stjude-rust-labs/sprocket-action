@@ -58,11 +58,11 @@ Validates an input JSON against a task or workflow input schema.
 
 ### Inputs
 
-#### wdl_file
+#### wdl_files
 
 A comma-separated list of WDL documents containing a task or workflow for which to check inputs.
 
-#### inputs_file
+#### inputs_files
 
 A matching comma-separated list of JSON format inputs file for the task(s)/workflow(s). Ordering must match `wdl_file` as no checking will be performed.
 
@@ -72,8 +72,8 @@ A matching comma-separated list of JSON format inputs file for the task(s)/workf
 uses: stjude-rust-labs/sprocket-action@main
 with:
     action: validate-inputs
-    wdl_file: "tools/bwa.wdl"
-    inputs_file: "inputs/bwa.json"
+    wdl_files: "tools/bwa.wdl"
+    inputs_files: "inputs/bwa.json"
 ```
 
 Multiple files can be specified as well.
@@ -81,8 +81,8 @@ Multiple files can be specified as well.
 uses: stjude-rust-labs/sprocket-action@main
 with:
     action: validate-inputs
-    wdl_file: "tools/bwa.wdl,tools/star.wdl"
-    inputs_file: "inputs/bwa.json,inputs/star.wdl"
+    wdl_files: "tools/bwa.wdl,tools/star.wdl"
+    inputs_files: "inputs/bwa.json,inputs/star.wdl"
 ```
 
 ## License and Legal

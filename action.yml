@@ -32,10 +32,10 @@ inputs:
     required: false
     default: ''
   # Options for `validate-inputs` subcommand
-  wdl_file:
+  wdl_files:
     description: "Path to the WDL document for which to validate inputs."
     required: false
-  inputs_file:
+  inputs_files:
     description: "Path to the JSON file containing inputs to validate."
     required: false
 outputs:

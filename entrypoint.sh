@@ -9,8 +9,8 @@ echo "exceptions: $INPUT_EXCEPT"
 echo "warnings: $INPUT_WARNINGS"
 echo "notes: $INPUT_NOTES"
 echo "patterns: $INPUT_PATTERNS"
-echo "wdl_file: $INPUT_WDL_FILE"
-echo "inputs_file: $INPUT_INPUTS_FILE"
+echo "wdl_file: $INPUT_WDL_FILES"
+echo "inputs_file: $INPUT_INPUTS_FILES"
 
 if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
     echo "Checking WDL files."
@@ -79,9 +79,10 @@ elif [ $INPUT_ACTION = "validate-inputs" ]; then
 
     EXITCODE=0
 
-    # Split the input variables on either "," or " " to get the list of files
-    IFS=',' read -r -a input_files <<< "$INPUT_INPUTS_FILE"
-    IFS=',' read -r -a wdl_files <<< "$INPUT_WDL_FILE"
+    # Split the input variables on "," to get the list of files.
+    # IFS treats each character as a delimiter.
+    IFS=',' read -r -a input_files <<< "$INPUT_INPUTS_FILES"
+    IFS=',' read -r -a wdl_files <<< "$INPUT_WDL_FILES"
 
     # Note: this depends on the user to get the pairing correct upfront.
     for index in "${!input_files[@]}"
