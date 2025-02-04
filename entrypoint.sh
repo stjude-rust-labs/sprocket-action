@@ -9,8 +9,8 @@ echo "exceptions: $INPUT_EXCEPT"
 echo "warnings: $INPUT_WARNINGS"
 echo "notes: $INPUT_NOTES"
 echo "patterns: $INPUT_PATTERNS"
-echo "wdl_file: $INPUT_WDL_FILES"
-echo "inputs_file: $INPUT_INPUTS_FILES"
+echo "wdl_files: $INPUT_WDL_FILES"
+echo "inputs_files: $INPUT_INPUTS_FILES"
 
 if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
     echo "Checking WDL files."

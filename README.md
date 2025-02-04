@@ -64,7 +64,7 @@ A comma-separated list of WDL documents containing a task or workflow for which 
 
 #### inputs_files
 
-A matching comma-separated list of JSON format inputs file for the task(s)/workflow(s). Ordering must match `wdl_file` as no checking will be performed.
+A matching comma-separated list of JSON format inputs file for the task(s)/workflow(s). Ordering must match `wdl_files` as no checking will be performed.
 
 ### Example usage
 
