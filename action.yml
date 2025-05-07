@@ -31,7 +31,7 @@ inputs:
     description: 'Comma separated list of rules to exclude from Sprocket check.'
     required: false
     default: ''
-  # Options for `validate-inputs` subcommand
+  # Options for `validate` subcommand
   wdl_files:
     description: "Path to the WDL document for which to validate inputs."
     required: false

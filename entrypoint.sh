@@ -68,33 +68,36 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
             fi
         fi
         echo "  [***] $file [***]"
-        echo "sprocket check --single-document $lint $warnings $notes $exceptions $file"
-        sprocket check --single-document $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
+        echo "sprocket check --suppress-imports $lint $warnings $notes $exceptions $file"
+        sprocket check --suppress-imports $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
     exit $EXITCODE
-elif [ $INPUT_ACTION = "validate-inputs" ]; then
+elif [ $INPUT_ACTION = "validate" ]; then
     echo "Validating inputs"
 
     EXITCODE=0
 
     # Split the input variables on "," to get the list of files.
     # IFS treats each character as a delimiter.
-    IFS=',' read -r -a input_files <<< "$INPUT_INPUTS_FILES"
     IFS=',' read -r -a wdl_files <<< "$INPUT_WDL_FILES"
+    IFS=',' read -r -a input_files <<< "$INPUT_INPUTS_FILES"
 
     # Note: this depends on the user to get the pairing correct upfront.
     for index in "${!input_files[@]}"
     do
-        echo "sprocket validate-inputs --inputs ${input_files[index]} ${wdl_files[index]}"
-        sprocket validate-inputs --inputs "${input_files[index]}" "${wdl_files[index]}" || EXITCODE=$(($? || EXITCODE))
+        echo "sprocket validate ${wdl_files[index]} ${input_files[index]}"
+        sprocket validate "${wdl_files[index]}" "${input_files[index]}" || EXITCODE=$(($? || EXITCODE))
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
     exit $EXITCODE
+elif [ $INPUT_ACTION = "run" ]; then
+    echo "Action `run` is currently unsupported."
+    exit 1
 elif [ $INPUT_ACTION = "format" ]; then
-    echo "Format is currently unsupported."
+    echo "Action `format` is currently unsupported."
     exit 1
 elif [ $INPUT_ACTION = "analyzer" ]; then
     echo "Action `analyzer` is unsupported."
