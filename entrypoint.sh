@@ -69,7 +69,7 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
         fi
         echo "  [***] $file [***]"
         echo "sprocket check --suppress-imports $lint $warnings $notes $exceptions $file"
-        sprocket check --suprpress-imports $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
+        sprocket check --suppress-imports $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
