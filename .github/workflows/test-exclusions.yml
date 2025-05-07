@@ -1,7 +1,6 @@
 name:  Test Exclusions
 
 on:
-  pull_request:
   push:
 
 jobs:
