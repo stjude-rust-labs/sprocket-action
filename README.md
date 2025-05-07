@@ -39,7 +39,7 @@ with:
     action: check
     lint: true
     exclude-patterns: template,test
-    except: TrailingComma,ContainerValue
+    except: TrailingComma,ContainerUri
 ```
 
 The action `lint` can be specified and is equivalent to specifying `action: check` and `lint: true`.
@@ -49,10 +49,10 @@ uses: stjude-rust-labs/sprocket-action@main
 with:
     action: lint
     exclude-patterns: template,test
-    except: TrailingComma,ContainerValue
+    except: TrailingComma,ContainerUri
 ```
 
-## `validate-inputs`
+## `validate`
 
 Validates an input JSON against a task or workflow input schema.
 
@@ -71,7 +71,7 @@ A matching comma-separated list of JSON format inputs file for the task(s)/workf
 ```yaml
 uses: stjude-rust-labs/sprocket-action@main
 with:
-    action: validate-inputs
+    action: validate
     wdl_files: "tools/bwa.wdl"
     inputs_files: "inputs/bwa.json"
 ```
@@ -80,7 +80,7 @@ Multiple files can be specified as well.
 ```yaml
 uses: stjude-rust-labs/sprocket-action@main
 with:
-    action: validate-inputs
+    action: validate
     wdl_files: "tools/bwa.wdl,tools/star.wdl"
     inputs_files: "inputs/bwa.json,inputs/star.wdl"
 ```
