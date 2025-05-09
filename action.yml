@@ -1,6 +1,6 @@
-name: "Sprocket Check"
+name: "Sprocket"
 author: "St. Jude Cloud Rust Labs"
-description: "Check WDL documents for validity using Sprocket"
+description: "Use the Sprocket toolset in your GitHub Actions workflows"
 branding:
   icon: 'check-circle'
   color: 'blue'
@@ -10,6 +10,10 @@ inputs:
     description: "Sprocket subcommand to run."
     required: true
     default: 'check'
+  sources:
+    description: "Space separated list of one or more WDL documents/directories"
+    required: false
+    default: ''
   # Options for `check` and `lint` subcommands
   lint:
     description: "Whether to lint WDL documents."
@@ -32,20 +36,19 @@ inputs:
     required: false
     default: ''
   # Options for `validate` subcommand
-  wdl_files:
-    description: "Path to the WDL document for which to validate inputs."
-    required: false
   inputs_files:
     description: "Path to the JSON file containing inputs to validate."
     required: false
 outputs:
   status:
-    description: "The status of the check"
+    description: "The status of the subcommand"
 runs:
   using: "docker"
   image: "Dockerfile"
   entrypoint: "/app/entrypoint.sh"
   env:
+    # These are added explicitly because inputs with dashes in the name aren't
+    # implicitly converted correctly to environment variables.
     INPUT_PATTERNS: ${{ inputs.exclude-patterns }}
     INPUT_WARNINGS: ${{ inputs.deny-warnings }}
     INPUT_NOTES: ${{ inputs.deny-notes }}
