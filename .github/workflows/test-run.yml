@@ -1,0 +1,21 @@
+name: Test `run` action
+
+on:
+  push:
+    branches:
+      - main
+      - run
+  pull_request:
+
+jobs:
+  test-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        env:
+          LOG_LEVEL: DEBUG
+        with:
+          action: run
+          sources: test/run/example.wdl
+          inputs: main.name="Sprocket"
