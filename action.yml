@@ -1,43 +1,57 @@
 name: "Sprocket"
 author: "St. Jude Cloud Rust Labs"
-description: "Use the Sprocket toolset in your GitHub Actions workflows"
+description: "Use Sprocket in your GitHub Actions workflows"
 branding:
-  icon: 'check-circle'
-  color: 'blue'
+  icon: "check-circle"
+  color: "blue"
 inputs:
   # General options
   action:
     description: "Sprocket subcommand to run."
     required: true
-    default: 'check'
+    default: "check"
   sources:
-    description: "Space separated list of one or more WDL documents/directories"
+    description: "Space separated list of one or more WDL documents/directories."
     required: false
-    default: ''
+    default: "**/*.wdl"
   # Options for `check` and `lint` subcommands
   lint:
     description: "Whether to lint WDL documents."
     required: false
-    default: 'false'
+    default: "false"
   exclude-patterns:
-    description: 'Comma separated list of patterns to exclude from Sprocket check.'
+    description: "Comma separated list of patterns to exclude from Sprocket check."
     required: false
-    default: ''
+    default: ""
   deny-warnings:
-    description: 'Fail the check if there are any warnings.'
+    description: "Fail the check if there are any warnings."
     required: false
-    default: 'false'
+    default: "false"
   deny-notes:
-    description: 'Fail the check if there are any notes.'
+    description: "Fail the check if there are any notes."
     required: false
-    default: 'false'
+    default: "false"
   except:
-    description: 'Comma separated list of rules to exclude from Sprocket check.'
+    description: "Comma separated list of rules to exclude from Sprocket check."
     required: false
-    default: ''
+    default: ""
   # Options for `validate` subcommand
   inputs_files:
     description: "Path to the JSON file containing inputs to validate."
+    required: false
+  # Options for `run` subcommand
+  config:
+    description: "Path to the TOML file containing configuration for Sprocket."
+    required: false
+  output-dir:
+    description: "Path to put the output directory of the run."
+    required: false
+  overwrite:
+    description: "Whether or not to overwrite an existing output directory."
+    required: false
+    default: false
+  inputs:
+    description: "Any inputs to pass through verbatim to the run command."
     required: false
 outputs:
   status:
@@ -47,8 +61,9 @@ runs:
   image: "Dockerfile"
   entrypoint: "/app/entrypoint.sh"
   env:
-    # These are added explicitly because inputs with dashes in the name aren't
+    # These are added explicitly because inputs with dashes in the name aren"t
     # implicitly converted correctly to environment variables.
     INPUT_PATTERNS: ${{ inputs.exclude-patterns }}
     INPUT_WARNINGS: ${{ inputs.deny-warnings }}
     INPUT_NOTES: ${{ inputs.deny-notes }}
+    INPUT_OUTPUT_DIR: ${{ inputs.output-dir }}
