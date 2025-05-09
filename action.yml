@@ -1,6 +1,6 @@
 name: "Sprocket"
 author: "St. Jude Cloud Rust Labs"
-description: "Use the Sprocket toolset in your GitHub Actions workflows"
+description: "Use Sprocket in your GitHub Actions workflows"
 branding:
   icon: 'check-circle'
   color: 'blue'
@@ -11,7 +11,7 @@ inputs:
     required: true
     default: 'check'
   sources:
-    description: "Space separated list of one or more WDL documents/directories"
+    description: "Space separated list of one or more WDL documents/directories."
     required: false
     default: ''
   # Options for `check` and `lint` subcommands

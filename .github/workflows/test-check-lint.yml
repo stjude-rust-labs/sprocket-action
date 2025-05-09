@@ -1,0 +1,29 @@
+name: Test `run`
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        env:
+          LOG_LEVEL: DEBUG
+          GITHUB_WORKSPACE: test/check-lint
+        with:
+          action: check
+  test-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        env:
+          LOG_LEVEL: DEBUG
+          GITHUB_WORKSPACE: test/check-lint
+        with:
+          action: check

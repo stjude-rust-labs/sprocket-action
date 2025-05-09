@@ -66,7 +66,8 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
         fi
         echo "    [+] Checking $file."
         echo "      - Running \`sprocket check --suppress-imports $args $file\`."
-        sprocket check --suppress-imports $args $file || EXITCODE=$(($? || EXITCODE))
+        sprocket check --suppress-imports $args $file
+        EXITCODE=$?
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
@@ -83,7 +84,8 @@ elif [ $INPUT_ACTION = "validate" ]; then
         INPUT=${INPUT_INPUTS_FILES[index]};
         echo "    [+] Validating \`$FILE\` with \`$INPUT\` as the input".
         echo "      - Running \`sprocket validate $FILE $INPUT\`"
-        sprocket validate "$FILE" "$INPUT" || EXITCODE=$(($? || EXITCODE))
+        sprocket validate "$FILE" "$INPUT"
+        EXITCODE=$?
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
