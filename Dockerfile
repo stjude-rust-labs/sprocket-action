@@ -1,4 +1,4 @@
-FROM ghcr.io/stjude-rust-labs/sprocket:v0.12.2
+FROM ghcr.io/stjude-rust-labs/sprocket:v0.14.0
 WORKDIR /app
 
 COPY . .
