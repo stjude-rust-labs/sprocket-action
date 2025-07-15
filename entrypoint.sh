@@ -22,7 +22,7 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
 
     if [ -n "$INPUT_EXCEPT" ]; then
         echo "Excepted rule(s) provided."
-        for exception in $(echo $INPUT_EXCEPT | sed 's/,/ /')
+        for exception in $(echo $INPUT_EXCEPT | sed 's/,/ /g')
         do
             exceptions="$exceptions --except $exception"
         done
