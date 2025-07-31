@@ -94,7 +94,7 @@ elif [ $INPUT_ACTION = "validate" ]; then
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
     exit $EXITCODE
 elif [ $INPUT_ACTION = "run" ]; then
-    echo "Action `run` is currently unsupported."
+    echo "Action `run` is unsupported."
     exit 1
 elif [ $INPUT_ACTION = "format" ]; then
     echo "Action `format` is currently unsupported."
@@ -104,6 +104,18 @@ elif [ $INPUT_ACTION = "analyzer" ]; then
     exit 1
 elif [ $INPUT_ACTION = "explain" ]; then
     echo "Action `explain` is unsupported."
+    exit 1
+elif [ $INPUT_ACTION = "completions" ]; then
+    echo "Action `completions` is unsupported."
+    exit 1
+elif [ $INPUT_ACTION = "config" ]; then
+    echo "Action `config` is unsupported."
+    exit 1
+elif [ $INPUT_ACTION = "dev" ]; then
+    echo "Action `dev` is unsupported."
+    exit 1
+elif [ $INPUT_ACTION = "inputs" ]; then
+    echo "Action `inputs` is unsupported."
     exit 1
 else
     echo "Invalid action. Exiting."
