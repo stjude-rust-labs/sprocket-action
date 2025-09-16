@@ -17,7 +17,7 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
     lint=""
     exceptions=""
     if [ $INPUT_LINT = "true" ] || [ $INPUT_ACTION = "lint" ]; then
-        lint="--lint"
+        lint="--lint -a"
     fi
 
     if [ -n "$INPUT_EXCEPT" ]; then
