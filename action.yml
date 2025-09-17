@@ -10,6 +10,9 @@ inputs:
     description: "Sprocket subcommand to run."
     required: true
     default: 'check'
+  config_path:
+    description: "Path to a `sprocket.toml` file to use for configuration. Other inputs to this action will override any values present in the config."
+    required: false
   # Options for `check` and `lint` subcommands
   lint:
     description: "Whether to lint WDL documents."
@@ -46,6 +49,7 @@ runs:
   image: "Dockerfile"
   entrypoint: "/app/entrypoint.sh"
   env:
+    SPROCKET_CONFIG: ${{ inputs.config_path }}
     INPUT_PATTERNS: ${{ inputs.exclude-patterns }}
     INPUT_WARNINGS: ${{ inputs.deny-warnings }}
     INPUT_NOTES: ${{ inputs.deny-notes }}
