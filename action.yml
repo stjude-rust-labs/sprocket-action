@@ -10,9 +10,13 @@ inputs:
     description: "Sprocket subcommand to run."
     required: true
     default: 'check'
-  sprocket-toml:
-    description: "Path to a `sprocket.toml` file to use for configuration. Other inputs to this action will override any values present in the config."
+  explicit-config-path:
+    description: "Path to a TOML file to use for configuration. This TOML will be merged with a `sprocket.toml` at the root of the repository."
     required: false
+  skip-config-search:
+    description: "Enable the '--skip-config-search' Sprocket option. Can be used with 'explicit-config-path' to load a different config file instead of the one found at the root."
+    required: false
+    default: 'false'
   # Options for `check` and `lint` subcommands
   lint:
     description: "Whether to lint WDL documents."
@@ -49,7 +53,8 @@ runs:
   image: "Dockerfile"
   entrypoint: "/app/entrypoint.sh"
   env:
-    SPROCKET_CONFIG: ${{ inputs.sprocket-toml }}
+    INPUT_CONFIG: ${{ inputs.explicit-config-path }}
+    INPUT_SKIP_CONFIG_SEARCH: ${{ inputs.skip-config-search }}
     INPUT_PATTERNS: ${{ inputs.exclude-patterns }}
     INPUT_WARNINGS: ${{ inputs.deny-warnings }}
     INPUT_NOTES: ${{ inputs.deny-notes }}
