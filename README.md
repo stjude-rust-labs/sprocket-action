@@ -19,7 +19,7 @@ The `check` and `lint` subcommands perform static analysis on WDL documents. The
 
 **Optional** Whether to run linting in addition to validation. Boolean, valid choices: ["true", "false"].
 
-##### `exclude-patterns`
+##### `ignore-patterns`
 
 **Optional** Comma separated list of patterns to exclude when searching for WDL files.
 
@@ -42,7 +42,7 @@ uses: stjude-rust-labs/sprocket-action@main
 with:
     action: check
     lint: true
-    exclude-patterns: template,test
+    ignore-patterns: template,test
     except: TrailingComma,ContainerUri
 ```
 
@@ -52,7 +52,7 @@ The action `lint` can be specified and is equivalent to specifying `action: chec
 uses: stjude-rust-labs/sprocket-action@main
 with:
     action: lint
-    exclude-patterns: template,test
+    ignore-patterns: template,test
     except: TrailingComma,ContainerUri
 ```
 

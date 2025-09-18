@@ -8,13 +8,13 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-            - name: Test exclude-patterns (debug log)
+            - name: Test ignore-patterns (debug log)
               uses: ./
               env:
                 LOG_LEVEL: DEBUG
                 CREATE_LOG_FILE: true
               with:
-                exclude-patterns: '*empty*'
+                ignore-patterns: '*empty*'
     test-config:
         runs-on: ubuntu-latest
         steps:
@@ -27,6 +27,6 @@ jobs:
               with:
                 action: lint
                 deny-notes: true
-                exclude-patterns: '*empty*'
+                ignore-patterns: '*empty*'
                 explicit-config-path: 'test/config-test/config.toml'
                 skip-config-search: true

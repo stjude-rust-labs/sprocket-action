@@ -26,7 +26,7 @@ inputs:
     description: "Whether to enable all lint rules (adds additional rules beyond the default lint rule set)"
     required: false
     default: 'false'
-  exclude-patterns:
+  ignore-patterns:
     description: 'Comma separated list of patterns to write/append to the root `.sprocketignore` file.'
     required: false
     default: ''
@@ -60,6 +60,6 @@ runs:
     INPUT_CONFIG: ${{ inputs.explicit-config-path }}
     INPUT_ALL_RULES: ${{ inputs.all-lint-rules }}
     INPUT_SKIP_CONFIG_SEARCH: ${{ inputs.skip-config-search }}
-    INPUT_PATTERNS: ${{ inputs.exclude-patterns }}
+    INPUT_PATTERNS: ${{ inputs.ignore-patterns }}
     INPUT_WARNINGS: ${{ inputs.deny-warnings }}
     INPUT_NOTES: ${{ inputs.deny-notes }}
