@@ -69,9 +69,9 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
     EXITCODE=0
 
     echo "Checking WDL files using \`sprocket check\`."
-    set +x
-    sprocket -v $config_args check $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
     set -x
+    sprocket -v $config_args check $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
+    set +x
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
     exit $EXITCODE
@@ -88,9 +88,9 @@ elif [ $INPUT_ACTION = "validate" ]; then
     # Note: this depends on the user to get the pairing correct upfront.
     for index in "${!input_files[@]}"
     do
-        set +x
-        sprocket -v $config_args validate "${wdl_files[index]}" "${input_files[index]}" || EXITCODE=$(($? || EXITCODE))
         set -x
+        sprocket -v $config_args validate "${wdl_files[index]}" "${input_files[index]}" || EXITCODE=$(($? || EXITCODE))
+        set +x
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
