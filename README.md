@@ -91,7 +91,7 @@ with:
 
 ## Configuration
 
-The Sprocket GitHub action will load a `sprocket.toml` in the root of your repository, and that can be used to have the same settings in your local development environment as your CI environment. All optional inputs to this workflow (aside from `action`  and `skip-config-search`) can be supplied in your TOML instead.
+The Sprocket GitHub action will load a `sprocket.toml` in the root of your repository, and that can be used to have the same settings in your local development environment as your CI environment. All optional inputs to this GitHub Action (aside from `action`  and `skip-config-search`) can be supplied in your TOML instead.
 
 See the [configuration overview](https://sprocket.bio/configuration/overview.html) on [sprocket.bio](https://sprocket.bio/) for more information.
 
