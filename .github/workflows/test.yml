@@ -1,0 +1,31 @@
+name:  Test
+
+on:
+  push:
+
+jobs:
+    test-exclusions:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Test exclude-patterns (debug log)
+              uses: ./
+              env:
+                  LOG_LEVEL: DEBUG
+                  CREATE_LOG_FILE: true
+                  GITHUB_WORKSPACE: test/exclusion-test
+              with:
+                  exclude-patterns: 'template'
+    test-config:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Test sprocket_toml (debug log)
+              uses: ./
+              env:
+                LOG_LEVEL: DEBUG
+                CREATE_LOG_FILE: true
+                GITHUB_WORKSPACE: test/config-test
+              with:
+                action: lint
+                deny-notes: true
