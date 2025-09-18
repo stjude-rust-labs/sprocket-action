@@ -66,7 +66,7 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
 
     echo "Checking WDL files using \`sprocket check\`."
     set +x
-    sprocket -v $config_args check --suppress-imports $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
+    sprocket -v $config_args check $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
     set -x
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
