@@ -66,7 +66,7 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
 
     echo "Checking WDL files using \`sprocket check\`."
     set +x
-    sprocket $config_args check --suppress-imports $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
+    sprocket -v $config_args check --suppress-imports $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
     set -x
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
@@ -85,7 +85,7 @@ elif [ $INPUT_ACTION = "validate" ]; then
     for index in "${!input_files[@]}"
     do
         set +x
-        sprocket $config_args validate "${wdl_files[index]}" "${input_files[index]}" || EXITCODE=$(($? || EXITCODE))
+        sprocket -v $config_args validate "${wdl_files[index]}" "${input_files[index]}" || EXITCODE=$(($? || EXITCODE))
         set -x
     done
 
