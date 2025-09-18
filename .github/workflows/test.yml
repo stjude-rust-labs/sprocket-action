@@ -11,11 +11,10 @@ jobs:
             - name: Test exclude-patterns (debug log)
               uses: ./
               env:
-                  LOG_LEVEL: DEBUG
-                  CREATE_LOG_FILE: true
-                  GITHUB_WORKSPACE: test/exclusion-test
+                LOG_LEVEL: DEBUG
+                CREATE_LOG_FILE: true
               with:
-                  exclude-patterns: 'template'
+                exclude-patterns: 'empty'
     test-config:
         runs-on: ubuntu-latest
         steps:
@@ -25,7 +24,7 @@ jobs:
               env:
                 LOG_LEVEL: DEBUG
                 CREATE_LOG_FILE: true
-                GITHUB_WORKSPACE: test/config-test
               with:
                 action: lint
                 deny-notes: true
+                exclude-patterns: 'empty'
