@@ -7,6 +7,7 @@ echo "action: $INPUT_ACTION"
 echo "skip_config_search: $INPUT_SKIP_CONFIG_SEARCH"
 echo "config_path: $INPUT_CONFIG"
 echo "lint: $INPUT_LINT"
+echo "all_lint_rules: $INPUT_ALL_RULES"
 echo "exceptions: $INPUT_EXCEPT"
 echo "warnings: $INPUT_WARNINGS"
 echo "notes: $INPUT_NOTES"
@@ -29,6 +30,9 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
     lint=""
     if [ $INPUT_LINT = "true" ] || [ $INPUT_ACTION = "lint" ]; then
         lint="--lint"
+    fi
+    if [ $INPUT_ALL_RULES = "true" ]; then
+        lint="$lint -a"
     fi
 
     exceptions=""
