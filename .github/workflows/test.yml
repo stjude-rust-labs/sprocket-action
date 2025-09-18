@@ -28,4 +28,4 @@ jobs:
                 action: lint
                 deny-notes: true
                 exclude-patterns: 'empty'
-                sprocket-toml: 'test/config-test/config.toml'
+                explicit-config-path: 'test/config-test/config.toml'
