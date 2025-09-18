@@ -101,11 +101,11 @@ See the [configuration overview](https://sprocket.bio/configuration/overview.htm
 
 ### Disabling implicit config loading
 
-You can set `skip-config-search: true` to enable the `--skip-config-search` Sprocket option, which disables the normal configuration search. This can be used with `explicit-config-path` to load only the specified configuration file.
+You can set `skip-config-search: true` to enable the `--skip-config-search` Sprocket option, which disables the normal configuration search. This can be used with `config-path` to load only the specified configuration file.
 
 ### Setting an explicit config path
 
-The `explicit-config-path` can be used if your config TOML is not in the root of the repository or you want to add CI specific configuration. The TOML found at this location will be the highest priority configuration. See our documentation about [configuration load order](https://sprocket.bio/configuration/overview.html#load-order) for more information.
+The `config-path` can be used if your config TOML is not in the root of the repository or you want to add CI specific configuration. The TOML found at this location will be the highest priority configuration. See our documentation about [configuration load order](https://sprocket.bio/configuration/overview.html#load-order) for more information.
 
 ## License and Legal
 

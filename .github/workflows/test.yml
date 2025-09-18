@@ -28,5 +28,5 @@ jobs:
                 action: lint
                 deny-notes: true
                 ignore-patterns: '*empty*'
-                explicit-config-path: 'test/config-test/config.toml'
+                config-path: 'test/config-test/config.toml'
                 skip-config-search: true
