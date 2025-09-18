@@ -28,3 +28,4 @@ jobs:
                 action: lint
                 deny-notes: true
                 exclude-patterns: 'empty'
+                sprocket-toml: config.toml
