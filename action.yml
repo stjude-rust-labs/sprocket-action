@@ -14,7 +14,7 @@ inputs:
     description: "Path to a TOML file to use for configuration. This TOML will be merged with a `sprocket.toml` at the root of the repository."
     required: false
   skip-config-search:
-    description: "Enable the '--skip-config-search' Sprocket option. Can be used with 'explicit-config-path' to load a different config file instead of the one found at the root."
+    description: "Enable the '--skip-config-search' Sprocket option, which disables the normal configuration search. Can be used with 'explicit-config-path' to load only the specified configuration file."
     required: false
     default: 'false'
   # Options for `check` and `lint` subcommands
