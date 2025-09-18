@@ -97,7 +97,7 @@ See the [configuration overview](https://sprocket.bio/configuration/overview.htm
 
 ### Disabling implicit config loading
 
-You can set `skip-config-search: true` to enable the '--skip-config-search' Sprocket option, which disables the normal configuration search. This can be used with 'explicit-config-path' to load only the specified configuration file.
+You can set `skip-config-search: true` to enable the `--skip-config-search` Sprocket option, which disables the normal configuration search. This can be used with `explicit-config-path` to load only the specified configuration file.
 
 ### Setting an explicit config path
 
