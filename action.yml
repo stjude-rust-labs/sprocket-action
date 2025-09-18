@@ -10,7 +10,7 @@ inputs:
     description: "Sprocket subcommand to run."
     required: true
     default: 'check'
-  config_path:
+  sprocket_toml:
     description: "Path to a `sprocket.toml` file to use for configuration. Other inputs to this action will override any values present in the config."
     required: false
   # Options for `check` and `lint` subcommands
@@ -49,7 +49,7 @@ runs:
   image: "Dockerfile"
   entrypoint: "/app/entrypoint.sh"
   env:
-    SPROCKET_CONFIG: ${{ inputs.config_path }}
+    SPROCKET_CONFIG: ${{ inputs.sprocket_toml }}
     INPUT_PATTERNS: ${{ inputs.exclude-patterns }}
     INPUT_WARNINGS: ${{ inputs.deny-warnings }}
     INPUT_NOTES: ${{ inputs.deny-notes }}
