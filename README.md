@@ -19,21 +19,25 @@ The `check` and `lint` subcommands perform static analysis on WDL documents. The
 
 **Optional** Whether to run linting in addition to validation. Boolean, valid choices: ["true", "false"].
 
-##### `ignore-patterns`
+##### `all-lint-rules`
 
-**Optional** Comma separated list of patterns to exclude when searching for WDL files.
+**Optional** Whether to enable all lint rules (adds additional rules beyond the default lint rule set). Boolean, valid choices: ["true", "false"].
 
 ##### `deny-warnings`
 
-**Optional** If specified, Sprocket `check` will fail if any `warnings` are produced.
+**Optional** If specified, Sprocket `check` will fail if any `warnings` are produced. Boolean, valid choices: ["true", "false"].
 
 ##### `deny-notes`
 
-**Optional** If specified, Sprocket `check` will fail if any `notes` are produced.
+**Optional** If specified, Sprocket `check` will fail if any `notes` are produced. Boolean, valid choices: ["true", "false"].
 
 ##### `except`
 
 **Optional** If specified, then the listed rules will be excepted from all `sprocket check` reports. Multiple rules can be specified as a comma-separated list, e.g. `CallInputSpacing,CommandSectionMixedIndentation`. Valid options can be found at: [analysis rules](https://github.com/stjude-rust-labs/wdl/blob/main/wdl-analysis/RULES.md) and [lint rules](https://github.com/stjude-rust-labs/wdl/blob/main/wdl-lint/RULES.md).
+
+##### `ignore-patterns`
+
+**Optional** Comma separated list of patterns to append to the `.sprocketignore` file in the root of the repository.
 
 #### Example usage
 
@@ -91,7 +95,7 @@ with:
 
 ## Configuration
 
-The Sprocket GitHub action will load a `sprocket.toml` in the root of your repository, and that can be used to have the same settings in your local development environment as your CI environment. All optional inputs to this GitHub Action (aside from `action`  and `skip-config-search`) can be supplied in your TOML instead.
+The Sprocket GitHub action will load a `sprocket.toml` in the root of your repository, and that can be used to have the same settings in your local development environment as your CI environment. All optional inputs to this GitHub Action (aside from `action` and `skip-config-search`) can be supplied in your TOML instead.
 
 See the [configuration overview](https://sprocket.bio/configuration/overview.html) on [sprocket.bio](https://sprocket.bio/) for more information.
 
