@@ -29,3 +29,4 @@ jobs:
                 deny-notes: true
                 exclude-patterns: 'empty'
                 explicit-config-path: 'test/config-test/config.toml'
+                skip-config-search: true
