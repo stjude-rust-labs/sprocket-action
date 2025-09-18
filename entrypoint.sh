@@ -27,16 +27,16 @@ config_args="$skip_config $config_path"
 if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
     echo "Checking WDL files."
     lint=""
-    exceptions=""
     if [ $INPUT_LINT = "true" ] || [ $INPUT_ACTION = "lint" ]; then
-        lint="--lint -a"
+        lint="--lint"
     fi
 
+    exceptions=""
     if [ -n "$INPUT_EXCEPT" ]; then
         echo "Excepted rule(s) provided."
         for exception in $(echo $INPUT_EXCEPT | sed 's/,/ /g')
         do
-            exceptions="$exceptions --except $exception"
+            exceptions="$exceptions -e $exception"
         done
     fi
 
@@ -52,34 +52,22 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
 
     exclusions=${INPUT_PATTERNS}
     if [ -n "$exclusions" ]; then
-        echo "Exclusions provided. Writing to .exclusions.txt"
-        echo -n "" > .exclusions.txt
+        echo "Exclusions provided. Appending to .sprocketignore"
         for exclusion in $(echo $exclusions | sed 's/,/ /g')
         do
-            echo "$exclusion" >> .exclusions.txt
+            echo "$exclusion" >> .sprocketignore
         done
         
-        echo "  [***] Exclusions [***]"
-        cat .exclusions.txt
+        echo "  [***] Ignore File [***]"
+        cat .sprocketignore
     fi
 
     EXITCODE=0
 
     echo "Checking WDL files using \`sprocket check\`."
-    for file in $(find $GITHUB_WORKSPACE -name "*.wdl")
-    do
-        if [ -e ".exclusions.txt" ]
-        then
-            if [ $(echo $file | grep -cvf .exclusions.txt) -eq 0 ]
-            then
-                echo "  [***] Excluding $file [***]"
-                continue
-            fi
-        fi
-        echo "  [***] $file [***]"
-        echo "sprocket $config_args check --suppress-imports $lint $warnings $notes $exceptions $file"
-        sprocket $config_args check --suppress-imports $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
-    done
+    set +x
+    sprocket $config_args check --suppress-imports $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
+    set -x
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
     exit $EXITCODE
@@ -96,8 +84,9 @@ elif [ $INPUT_ACTION = "validate" ]; then
     # Note: this depends on the user to get the pairing correct upfront.
     for index in "${!input_files[@]}"
     do
-        echo "sprocket $config_args validate ${wdl_files[index]} ${input_files[index]}"
+        set +x
         sprocket $config_args validate "${wdl_files[index]}" "${input_files[index]}" || EXITCODE=$(($? || EXITCODE))
+        set -x
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
