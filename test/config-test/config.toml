@@ -1,0 +1,3 @@
+[check]
+all_lint_rules = true
+except = ["LineWidth"]

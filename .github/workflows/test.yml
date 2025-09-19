@@ -1,0 +1,32 @@
+name:  Test
+
+on:
+  push:
+
+jobs:
+    test-exclusions:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Test ignore-patterns (debug log)
+              uses: ./
+              env:
+                LOG_LEVEL: DEBUG
+                CREATE_LOG_FILE: true
+              with:
+                ignore-patterns: '*empty*'
+    test-config:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Test sprocket_toml (debug log)
+              uses: ./
+              env:
+                LOG_LEVEL: DEBUG
+                CREATE_LOG_FILE: true
+              with:
+                action: lint
+                deny-notes: true
+                ignore-patterns: '*empty*'
+                config-path: 'test/config-test/config.toml'
+                skip-config-search: true

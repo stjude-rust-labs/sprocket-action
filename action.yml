@@ -10,13 +10,24 @@ inputs:
     description: "Sprocket subcommand to run."
     required: true
     default: 'check'
+  config-path:
+    description: "Path to a TOML file to use for configuration. This TOML will be merged with any configuration file(s) found in the [standard load order](https://sprocket.bio/configuration/overview.html#load-order)."
+    required: false
+  skip-config-search:
+    description: "Enable the '--skip-config-search' Sprocket option, which disables the normal configuration search. Can be used with 'config-path' to load only the specified configuration file."
+    required: false
+    default: 'false'
   # Options for `check` and `lint` subcommands
   lint:
     description: "Whether to lint WDL documents."
     required: false
     default: 'false'
-  exclude-patterns:
-    description: 'Comma separated list of patterns to exclude from Sprocket check.'
+  all-lint-rules:
+    description: "Whether to enable all lint rules (adds additional rules beyond the default lint rule set)"
+    required: false
+    default: 'false'
+  ignore-patterns:
+    description: 'Comma separated list of patterns to write/append to the root `.sprocketignore` file.'
     required: false
     default: ''
   deny-warnings:
@@ -46,6 +57,9 @@ runs:
   image: "Dockerfile"
   entrypoint: "/app/entrypoint.sh"
   env:
-    INPUT_PATTERNS: ${{ inputs.exclude-patterns }}
+    INPUT_CONFIG: ${{ inputs.config-path }}
+    INPUT_ALL_RULES: ${{ inputs.all-lint-rules }}
+    INPUT_SKIP_CONFIG_SEARCH: ${{ inputs.skip-config-search }}
+    INPUT_PATTERNS: ${{ inputs.ignore-patterns }}
     INPUT_WARNINGS: ${{ inputs.deny-warnings }}
     INPUT_NOTES: ${{ inputs.deny-notes }}

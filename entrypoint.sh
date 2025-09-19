@@ -4,7 +4,10 @@ set -euo pipefail
 
 echo "===configuration==="
 echo "action: $INPUT_ACTION"
+echo "skip_config_search: $INPUT_SKIP_CONFIG_SEARCH"
+echo "config_path: $INPUT_CONFIG"
 echo "lint: $INPUT_LINT"
+echo "all_lint_rules: $INPUT_ALL_RULES"
 echo "exceptions: $INPUT_EXCEPT"
 echo "warnings: $INPUT_WARNINGS"
 echo "notes: $INPUT_NOTES"
@@ -12,65 +15,63 @@ echo "patterns: $INPUT_PATTERNS"
 echo "wdl_files: $INPUT_WDL_FILES"
 echo "inputs_files: $INPUT_INPUTS_FILES"
 
+skip_config=""
+if [ $INPUT_SKIP_CONFIG_SEARCH = "true" ]; then
+    skip_config="-s"
+fi
+config_path=""
+if [ -n "$INPUT_CONFIG" ]; then
+    config_path="-c $INPUT_CONFIG"
+fi
+config_args="$skip_config $config_path"
+
 if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
     echo "Checking WDL files."
     lint=""
-    exceptions=""
     if [ $INPUT_LINT = "true" ] || [ $INPUT_ACTION = "lint" ]; then
-        lint="--lint -a"
+        lint="--lint"
+    fi
+    if [ $INPUT_ALL_RULES = "true" ]; then
+        lint="$lint -a"
     fi
 
+    exceptions=""
     if [ -n "$INPUT_EXCEPT" ]; then
         echo "Excepted rule(s) provided."
         for exception in $(echo $INPUT_EXCEPT | sed 's/,/ /g')
         do
-            exceptions="$exceptions --except $exception"
+            exceptions="$exceptions -e $exception"
         done
     fi
 
     warnings=""
-
     if [ ${INPUT_WARNINGS} = "true" ]; then
         warnings="--deny-warnings"
     fi
 
     notes=""
-
     if [ ${INPUT_NOTES} = "true" ]; then
         notes="--deny-notes"
     fi
 
     exclusions=${INPUT_PATTERNS}
-
     if [ -n "$exclusions" ]; then
-        echo "Exclusions provided. Writing to .sprocket.yml."
-        echo -n "" > .sprocket.yml
+        echo "Exclusions provided. Appending to .sprocketignore"
         for exclusion in $(echo $exclusions | sed 's/,/ /g')
         do
-            echo "$exclusion" >> .sprocket.yml
+            echo "$exclusion" >> .sprocketignore
         done
         
-        echo "  [***] Exclusions [***]"
-        cat .sprocket.yml
+        echo "  [***] Ignore File [***]"
+        cat .sprocketignore
     fi
 
     EXITCODE=0
 
     echo "Checking WDL files using \`sprocket check\`."
-    for file in $(find $GITHUB_WORKSPACE -name "*.wdl")
-    do
-        if [ -e ".sprocket.yml" ]
-        then
-            if [ $(echo $file | grep -cvf .sprocket.yml) -eq 0 ]
-            then
-                echo "  [***] Excluding $file [***]"
-                continue
-            fi
-        fi
-        echo "  [***] $file [***]"
-        echo "sprocket check --suppress-imports $lint $warnings $notes $exceptions $file"
-        sprocket check --suppress-imports $lint $warnings $notes $exceptions $file || EXITCODE=$(($? || EXITCODE))
-    done
+    set -x
+    sprocket -v $config_args check $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
+    set +x
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
     exit $EXITCODE
@@ -87,8 +88,9 @@ elif [ $INPUT_ACTION = "validate" ]; then
     # Note: this depends on the user to get the pairing correct upfront.
     for index in "${!input_files[@]}"
     do
-        echo "sprocket validate ${wdl_files[index]} ${input_files[index]}"
-        sprocket validate "${wdl_files[index]}" "${input_files[index]}" || EXITCODE=$(($? || EXITCODE))
+        set -x
+        sprocket -v $config_args validate "${wdl_files[index]}" "${input_files[index]}" || EXITCODE=$(($? || EXITCODE))
+        set +x
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
