@@ -1,6 +1,6 @@
-name: "Sprocket Check"
+name: "Sprocket CI/CD"
 author: "St. Jude Cloud Rust Labs"
-description: "Check WDL documents for validity using Sprocket"
+description: "Run Sprocket as part of a CI/CD pipeline"
 branding:
   icon: 'check-circle'
   color: 'blue'
