@@ -1,4 +1,4 @@
-FROM ghcr.io/stjude-rust-labs/sprocket:v0.17.1
+FROM ghcr.io/stjude-rust-labs/sprocket:v0.20.1
 WORKDIR /app
 
 RUN apk add --update bash
