@@ -1,5 +1,3 @@
-#@ except: LineWidth
-
 version 1.1
 
 task foo {
