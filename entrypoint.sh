@@ -25,10 +25,10 @@ if [ -n "$INPUT_CONFIG" ]; then
 fi
 config_args="$skip_config $config_path"
 
-if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
-    echo "Checking WDL files."
+if [ "$INPUT_ACTION" = "check" ] || [ "$INPUT_ACTION" = "lint" ]; then
+    echo "Checking WDL files using 'sprocket check'"
     lint=""
-    if [ $INPUT_LINT = "true" ] || [ $INPUT_ACTION = "lint" ]; then
+    if [ $INPUT_LINT = "true" ] || [ "$INPUT_ACTION" = "lint" ]; then
         lint="--lint"
     fi
     if [ $INPUT_ALL_RULES = "true" ]; then
@@ -38,7 +38,7 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
     exceptions=""
     if [ -n "$INPUT_EXCEPT" ]; then
         echo "Excepted rule(s) provided."
-        for exception in $(echo $INPUT_EXCEPT | sed 's/,/ /g')
+        for exception in ${INPUT_EXCEPT//,/ /}
         do
             exceptions="$exceptions -e $exception"
         done
@@ -57,7 +57,7 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
     exclusions=${INPUT_PATTERNS}
     if [ -n "$exclusions" ]; then
         echo "Exclusions provided. Appending to .sprocketignore"
-        for exclusion in $(echo $exclusions | sed 's/,/ /g')
+        for exclusion in ${exclusions//,/ /}
         do
             echo "$exclusion" >> .sprocketignore
         done
@@ -68,15 +68,14 @@ if [ $INPUT_ACTION = "check" ] || [ $INPUT_ACTION = "lint" ]; then
 
     EXITCODE=0
 
-    echo "Checking WDL files using \`sprocket check\`."
     set -x
     sprocket -v $config_args check $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
     set +x
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
     exit $EXITCODE
-elif [ $INPUT_ACTION = "validate" ]; then
-    echo "Validating inputs"
+elif [ "$INPUT_ACTION" = "validate" ]; then
+    echo "Validating inputs using 'sprocket validate'"
 
     EXITCODE=0
 
@@ -89,38 +88,58 @@ elif [ $INPUT_ACTION = "validate" ]; then
     for index in "${!input_files[@]}"
     do
         set -x
-        sprocket -v $config_args validate "${wdl_files[index]}" "${input_files[index]}" || EXITCODE=$(($? || EXITCODE))
+        sprocket -v $config_args validate "${wdl_files[index]}" "${input_files[index]}" \
+            || EXITCODE=$(($? || EXITCODE))
         set +x
     done
 
     echo "status=$EXITCODE" >> $GITHUB_OUTPUT
     exit $EXITCODE
-elif [ $INPUT_ACTION = "run" ]; then
-    echo "Action \`run\` is unsupported."
-    exit 1
-elif [ $INPUT_ACTION = "format" ]; then
-    echo "Action \`format\` is currently unsupported."
-    exit 1
-elif [ $INPUT_ACTION = "analyzer" ]; then
-    echo "Action \`analyzer\` is unsupported."
-    exit 1
-elif [ $INPUT_ACTION = "explain" ]; then
-    echo "Action \`explain\` is unsupported."
-    exit 1
-elif [ $INPUT_ACTION = "completions" ]; then
-    echo "Action \`completions\` is unsupported."
-    exit 1
-elif [ $INPUT_ACTION = "config" ]; then
-    echo "Action \`config\` is unsupported."
-    exit 1
-elif [ $INPUT_ACTION = "dev" ]; then
-    echo "Action \`dev\` is unsupported."
-    exit 1
-elif [ $INPUT_ACTION = "inputs" ]; then
-    echo "Action \`inputs\` is unsupported."
-    exit 1
+elif [ "$INPUT_ACTION" = "run" ]; then
+    echo "Action 'run' is unsupported."
+    EXITCODE=1
+elif [ "$INPUT_ACTION" = "format" ] || [ "$INPUT_ACTION" = "format check" ]; then
+    echo "Checking formatting using 'sprocket format check'"
+
+    exclusions=${INPUT_PATTERNS}
+    if [ -n "$exclusions" ]; then
+        echo "Exclusions provided. Appending to .sprocketignore"
+        for exclusion in ${exclusions//,/ /}
+        do
+            echo "$exclusion" >> .sprocketignore
+        done
+        
+        echo "  [***] Ignore File [***]"
+        cat .sprocketignore
+    fi
+
+    EXITCODE=0
+    
+    set -x
+    sprocket -v $config_args format check || EXITCODE=$(($? || EXITCODE))
+    set +x
+elif [ "$INPUT_ACTION" = "analyzer" ]; then
+    echo "Action 'analyzer' is unsupported."
+    EXITCODE=1
+elif [ "$INPUT_ACTION" = "explain" ]; then
+    echo "Action 'explain' is unsupported."
+    EXITCODE=1
+elif [ "$INPUT_ACTION" = "completions" ]; then
+    echo "Action 'completions' is unsupported."
+    EXITCODE=1
+elif [ "$INPUT_ACTION" = "config" ]; then
+    echo "Action 'config' is unsupported."
+    EXITCODE=1
+elif [ "$INPUT_ACTION" = "dev" ]; then
+    echo "Action 'dev' is unsupported."
+    EXITCODE=1
+elif [ "$INPUT_ACTION" = "inputs" ]; then
+    echo "Action 'inputs' is unsupported."
+    EXITCODE=1
 else
     echo "Invalid action. Exiting."
-    exit 1
+    EXITCODE=1
 fi
 
+echo "status=$EXITCODE" >> $GITHUB_OUTPUT
+exit $EXITCODE
