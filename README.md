@@ -93,6 +93,27 @@ with:
     inputs_files: "inputs/bwa.json,inputs/star.wdl"
 ```
 
+### `format` | `format check`
+
+Checks that all WDL files are formatted correctly.
+
+#### Inputs
+
+To set your format configuration (e.g. indentation) a `sprocket.toml` should be committed to your repository. See [Configuration](#configuration) for more information.
+
+##### `ignore-patterns`
+
+**Optional** Comma separated list of patterns to append to the `.sprocketignore` file in the root of the repository.
+
+#### Example usage
+
+```yaml
+uses: stjude-rust-labs/sprocket-action@main
+with:
+    action: format
+    ignore-patterns: template,test
+```
+
 ## Configuration
 
 The Sprocket GitHub action will load a `sprocket.toml` in the root of your repository, and that can be used to have the same settings in your local development environment as your CI environment. All optional inputs to this GitHub Action (aside from `action` and `skip-config-search`) can be supplied in your TOML instead.
