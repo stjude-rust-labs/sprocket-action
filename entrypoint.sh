@@ -103,7 +103,7 @@ elif [ "$INPUT_ACTION" = "format" ] || [ "$INPUT_ACTION" = "format check" ]; the
 
     exclusions=${INPUT_PATTERNS}
     if [ -n "$exclusions" ]; then
-        echo "Exclusions provided. Appending to .sprocketignore"
+        echo "Exclusions provided; appending to '.sprocketignore'"
         for exclusion in ${exclusions//,/ /}
         do
             echo "$exclusion" >> .sprocketignore
