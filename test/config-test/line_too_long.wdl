@@ -9,6 +9,7 @@ task foo {
     }
 
     command <<<
+        set -euo pipefail
         echo "hello" > out
     >>>
 
