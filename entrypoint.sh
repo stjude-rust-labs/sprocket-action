@@ -32,7 +32,7 @@ if [ "$INPUT_ACTION" = "check" ] || [ "$INPUT_ACTION" = "lint" ]; then
         lint="--lint"
     fi
     if [ $INPUT_ALL_RULES = "true" ]; then
-        lint="$lint -a"
+        lint="$lint --tag all"
     fi
 
     exceptions=""

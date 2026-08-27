@@ -23,7 +23,7 @@ inputs:
     required: false
     default: 'false'
   all-lint-rules:
-    description: "Whether to enable all lint rules (adds additional rules beyond the default lint rule set)"
+    description: "Whether to enable every lint tag (adds rules beyond the default lint set)"
     required: false
     default: 'false'
   ignore-patterns:
