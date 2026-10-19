@@ -7,8 +7,7 @@ echo "action: $INPUT_ACTION"
 echo "skip_config_search: $INPUT_SKIP_CONFIG_SEARCH"
 echo "config_path: $INPUT_CONFIG"
 echo "lint: $INPUT_LINT"
-echo "all_lint_rules: $INPUT_ALL_RULES"
-echo "exceptions: $INPUT_EXCEPT"
+echo "disable: $INPUT_DISABLE"
 echo "warnings: $INPUT_WARNINGS"
 echo "notes: $INPUT_NOTES"
 echo "patterns: $INPUT_PATTERNS"
@@ -16,7 +15,7 @@ echo "wdl_files: $INPUT_WDL_FILES"
 echo "inputs_files: $INPUT_INPUTS_FILES"
 
 skip_config=""
-if [ $INPUT_SKIP_CONFIG_SEARCH = "true" ]; then
+if [ "$INPUT_SKIP_CONFIG_SEARCH" = "true" ]; then
     skip_config="-s"
 fi
 config_path=""
@@ -28,29 +27,26 @@ config_args="$skip_config $config_path"
 if [ "$INPUT_ACTION" = "check" ] || [ "$INPUT_ACTION" = "lint" ]; then
     echo "Checking WDL files using 'sprocket check'"
     lint=""
-    if [ $INPUT_LINT = "true" ] || [ "$INPUT_ACTION" = "lint" ]; then
+    if [ "$INPUT_LINT" = "true" ] || [ "$INPUT_ACTION" = "lint" ]; then
         lint="--lint"
     fi
-    if [ $INPUT_ALL_RULES = "true" ]; then
-        lint="$lint --tag all"
-    fi
 
-    exceptions=""
-    if [ -n "$INPUT_EXCEPT" ]; then
-        echo "Excepted rule(s) provided."
-        for exception in ${INPUT_EXCEPT//,/ /}
+    disabled=""
+    if [ -n "$INPUT_DISABLE" ]; then
+        echo "Disabled rule(s) provided."
+        for off in ${INPUT_DISABLE//,/ /}
         do
-            exceptions="$exceptions -e $exception"
+            disabled="$disabled --off $off"
         done
     fi
 
     warnings=""
-    if [ ${INPUT_WARNINGS} = "true" ]; then
+    if [ "${INPUT_WARNINGS}" = "true" ]; then
         warnings="--deny-warnings"
     fi
 
     notes=""
-    if [ ${INPUT_NOTES} = "true" ]; then
+    if [ "${INPUT_NOTES}" = "true" ]; then
         notes="--deny-notes"
     fi
 
@@ -69,10 +65,10 @@ if [ "$INPUT_ACTION" = "check" ] || [ "$INPUT_ACTION" = "lint" ]; then
     EXITCODE=0
 
     set -x
-    sprocket -v $config_args check $lint $warnings $notes $exceptions || EXITCODE=$(($? || EXITCODE))
+    sprocket -v $config_args check $lint $warnings $notes $disabled || EXITCODE=$(($? || EXITCODE))
     set +x
 
-    echo "status=$EXITCODE" >> $GITHUB_OUTPUT
+    echo "status=$EXITCODE" >> "$GITHUB_OUTPUT"
     exit $EXITCODE
 elif [ "$INPUT_ACTION" = "validate" ]; then
     echo "Validating inputs using 'sprocket validate'"
@@ -93,7 +89,7 @@ elif [ "$INPUT_ACTION" = "validate" ]; then
         set +x
     done
 
-    echo "status=$EXITCODE" >> $GITHUB_OUTPUT
+    echo "status=$EXITCODE" >> "$GITHUB_OUTPUT"
     exit $EXITCODE
 elif [ "$INPUT_ACTION" = "run" ]; then
     echo "Action 'run' is unsupported."
@@ -141,5 +137,5 @@ else
     EXITCODE=1
 fi
 
-echo "status=$EXITCODE" >> $GITHUB_OUTPUT
+echo "status=$EXITCODE" >> "$GITHUB_OUTPUT"
 exit $EXITCODE
