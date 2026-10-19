@@ -32,9 +32,9 @@ if [ "$INPUT_ACTION" = "check" ] || [ "$INPUT_ACTION" = "lint" ]; then
     fi
 
     disabled=""
-    if [ -n "$INPUT_DISABLE" ]; then
+    if [ -n "$INPUT_DISABLE" ] || [ -n "$INPUT_EXCEPT" ]; then
         echo "Disabled rule(s) provided."
-        for off in ${INPUT_DISABLE//,/ /}
+        for off in ${INPUT_DISABLE//,/ /} ${INPUT_EXCEPT//,/ /}
         do
             disabled="$disabled --off $off"
         done
