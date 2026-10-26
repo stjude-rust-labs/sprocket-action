@@ -22,10 +22,6 @@ inputs:
     description: "Whether to lint WDL documents."
     required: false
     default: 'false'
-  all-lint-rules:
-    description: "Whether to enable every lint tag (adds rules beyond the default lint set)"
-    required: false
-    default: 'false'
   ignore-patterns:
     description: 'Comma separated list of patterns to write/append to the root `.sprocketignore` file.'
     required: false
@@ -38,8 +34,12 @@ inputs:
     description: 'Fail the check if there are any notes.'
     required: false
     default: 'false'
-  except:
+  disable:
     description: 'Comma separated list of rules to exclude from Sprocket check.'
+    required: false
+    default: ''
+  except:
+    description: '**Deprecated** Comma separated list of rules to exclude from Sprocket check.'
     required: false
     default: ''
   # Options for `validate` subcommand
@@ -58,7 +58,6 @@ runs:
   entrypoint: "/app/entrypoint.sh"
   env:
     INPUT_CONFIG: ${{ inputs.config-path }}
-    INPUT_ALL_RULES: ${{ inputs.all-lint-rules }}
     INPUT_SKIP_CONFIG_SEARCH: ${{ inputs.skip-config-search }}
     INPUT_PATTERNS: ${{ inputs.ignore-patterns }}
     INPUT_WARNINGS: ${{ inputs.deny-warnings }}

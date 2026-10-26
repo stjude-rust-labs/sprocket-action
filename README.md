@@ -19,10 +19,6 @@ The `check` and `lint` subcommands perform static analysis on WDL documents. The
 
 **Optional** Whether to run linting in addition to validation. Boolean, valid choices: ["true", "false"].
 
-##### `all-lint-rules`
-
-**Optional** Whether to enable all lint rules (adds additional rules beyond the default lint rule set). Boolean, valid choices: ["true", "false"].
-
 ##### `deny-warnings`
 
 **Optional** If specified, Sprocket `check` will fail if any `warnings` are produced. Boolean, valid choices: ["true", "false"].
@@ -31,9 +27,13 @@ The `check` and `lint` subcommands perform static analysis on WDL documents. The
 
 **Optional** If specified, Sprocket `check` will fail if any `notes` are produced. Boolean, valid choices: ["true", "false"].
 
+##### `disabled`
+
+**Optional** If specified, then the listed rules will be disabled from all `sprocket check` reports. Multiple rules can be specified as a comma-separated list, e.g. `MutableContainerTag,UnusedCall`. Valid options can be found at: [analysis rules](https://github.com/stjude-rust-labs/sprocket/blob/main/crates/wdl-analysis/RULES.md) and [lint rules](https://github.com/stjude-rust-labs/sprocket/blob/main/crates/wdl-lint/RULES.md).
+
 ##### `except`
 
-**Optional** If specified, then the listed rules will be excepted from all `sprocket check` reports. Multiple rules can be specified as a comma-separated list, e.g. `CallInputSpacing,CommandSectionMixedIndentation`. Valid options can be found at: [analysis rules](https://github.com/stjude-rust-labs/wdl/blob/main/wdl-analysis/RULES.md) and [lint rules](https://github.com/stjude-rust-labs/wdl/blob/main/wdl-lint/RULES.md).
+**Deprecated** will be removed in a future release. Use `disable` instead.
 
 ##### `ignore-patterns`
 
@@ -47,7 +47,7 @@ with:
     action: check
     lint: true
     ignore-patterns: template,test
-    except: TrailingComma,ContainerUri
+    except: UnusedInput,MutableContainerTag
 ```
 
 The action `lint` can be specified and is equivalent to specifying `action: check` and `lint: true`.
@@ -57,7 +57,7 @@ uses: stjude-rust-labs/sprocket-action@main
 with:
     action: lint
     ignore-patterns: template,test
-    except: TrailingComma,ContainerUri
+    except: UnusedInput,MutableContainerTag
 ```
 
 ### `validate`
@@ -85,6 +85,7 @@ with:
 ```
 
 Multiple files can be specified as well.
+
 ```yaml
 uses: stjude-rust-labs/sprocket-action@main
 with:
