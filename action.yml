@@ -49,16 +49,29 @@ inputs:
   inputs_files:
     description: "Path to the JSON file containing inputs to validate."
     required: false
+  # Options for `test` subcommand
+  exclude-tags:
+    description: "Comma separated list of test tags to exclude from Sprocket test."
+    required: false
+    default: ''
 outputs:
   status:
     description: "The status of the check"
 runs:
-  using: "docker"
-  image: "Dockerfile"
-  entrypoint: "/app/entrypoint.sh"
-  env:
-    INPUT_CONFIG: ${{ inputs.config-path }}
-    INPUT_SKIP_CONFIG_SEARCH: ${{ inputs.skip-config-search }}
-    INPUT_PATTERNS: ${{ inputs.ignore-patterns }}
-    INPUT_WARNINGS: ${{ inputs.deny-warnings }}
-    INPUT_NOTES: ${{ inputs.deny-notes }}
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v7
+      with:
+        lfs: true
+    - uses: stjude-rust-labs/setup-sprocket@v1
+      with:
+        github-token: ${{ github.token }}
+    - run: TEST_PATH=${{ matrix.file }} ${{ github.action_path }}/entrypoint.sh
+      shell: bash
+      env:
+        INPUT_CONFIG: ${{ inputs.config-path }}
+        INPUT_SKIP_CONFIG_SEARCH: ${{ inputs.skip-config-search }}
+        INPUT_PATTERNS: ${{ inputs.ignore-patterns }}
+        INPUT_WARNINGS: ${{ inputs.deny-warnings }}
+        INPUT_NOTES: ${{ inputs.deny-notes }}
+        INPUT_EXCLUDED: ${{ inputs.exclude-tags }}

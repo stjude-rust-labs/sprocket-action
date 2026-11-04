@@ -13,6 +13,7 @@ echo "notes: $INPUT_NOTES"
 echo "patterns: $INPUT_PATTERNS"
 echo "wdl_files: $INPUT_WDL_FILES"
 echo "inputs_files: $INPUT_INPUTS_FILES"
+echo "exclude_tags: $INPUT_EXCLUDED"
 
 skip_config=""
 if [ "$INPUT_SKIP_CONFIG_SEARCH" = "true" ]; then
@@ -24,6 +25,7 @@ if [ -n "$INPUT_CONFIG" ]; then
 fi
 config_args="$skip_config $config_path"
 
+EXITCODE=0
 if [ "$INPUT_ACTION" = "check" ] || [ "$INPUT_ACTION" = "lint" ]; then
     echo "Checking WDL files using 'sprocket check'"
     lint=""
@@ -62,18 +64,11 @@ if [ "$INPUT_ACTION" = "check" ] || [ "$INPUT_ACTION" = "lint" ]; then
         cat .sprocketignore
     fi
 
-    EXITCODE=0
-
     set -x
     sprocket -v $config_args check $lint $warnings $notes $disabled || EXITCODE=$(($? || EXITCODE))
     set +x
-
-    echo "status=$EXITCODE" >> "$GITHUB_OUTPUT"
-    exit $EXITCODE
 elif [ "$INPUT_ACTION" = "validate" ]; then
     echo "Validating inputs using 'sprocket validate'"
-
-    EXITCODE=0
 
     # Split the input variables on "," to get the list of files.
     # IFS treats each character as a delimiter.
@@ -88,12 +83,6 @@ elif [ "$INPUT_ACTION" = "validate" ]; then
             || EXITCODE=$(($? || EXITCODE))
         set +x
     done
-
-    echo "status=$EXITCODE" >> "$GITHUB_OUTPUT"
-    exit $EXITCODE
-elif [ "$INPUT_ACTION" = "run" ]; then
-    echo "Action 'run' is unsupported."
-    EXITCODE=1
 elif [ "$INPUT_ACTION" = "format" ] || [ "$INPUT_ACTION" = "format check" ]; then
     echo "Checking formatting using 'sprocket format check'"
 
@@ -109,11 +98,27 @@ elif [ "$INPUT_ACTION" = "format" ] || [ "$INPUT_ACTION" = "format check" ]; the
         cat .sprocketignore
     fi
 
-    EXITCODE=0
-    
     set -x
     sprocket -v $config_args format check || EXITCODE=$(($? || EXITCODE))
     set +x
+elif [ "$INPUT_ACTION" = "test" ]; then
+    echo "Running unit tests using 'sprocket test'"
+
+    excluded=""
+    if [ -n "$INPUT_EXCLUDED" ]; then
+        echo "Excluded tag(s) provided."
+        for tag in ${INPUT_EXCLUDED//,/ /}
+        do
+            excluded="$excluded --exclude-tag $tag"
+        done
+    fi
+
+    set -x
+    sprocket -v $config_args test --clean-all $excluded $TEST_PATH || EXITCODE=$(($? || EXITCODE))
+    set +x
+elif [ "$INPUT_ACTION" = "run" ]; then
+    echo "Action 'run' is unsupported."
+    EXITCODE=1
 elif [ "$INPUT_ACTION" = "analyzer" ]; then
     echo "Action 'analyzer' is unsupported."
     EXITCODE=1
